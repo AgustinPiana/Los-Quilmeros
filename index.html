@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asociación Los Quilmeros</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --azul-quilmes:#1268A8;
+    --azul-profundo:#12344A;
+    --marfil:#F5F1E8;
+    --rojo-cadena:#A22929;
+    --dorado-sol:#E5A928;
+    --marfil-sombra:#e9e2d2;
+    --linea:#d8cfba;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--marfil);
+    color:var(--azul-profundo);
+    font-family:'Montserrat',sans-serif;
+    line-height:1.6;
+  }
+  h1,h2,h3,.serif{
+    font-family:'Libre Baskerville',serif;
+    font-weight:700;
+    margin:0;
+    color:var(--azul-profundo);
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:var(--marfil);
+    border-bottom:1px solid var(--linea);
+  }
+  .header-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 28px;max-width:1120px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand img{height:44px;width:auto;}
+  .brand-text{line-height:1.15;}
+  .brand-text .eyebrow{
+    font-size:11px;letter-spacing:.14em;font-weight:600;color:var(--azul-quilmes);
+    text-transform:uppercase;
+  }
+  .brand-text .name{font-family:'Libre Baskerville',serif;font-size:19px;font-weight:700;}
+  nav{display:flex;gap:30px;font-size:14px;font-weight:500;}
+  nav a{position:relative;padding:4px 0;}
+  nav a:hover{color:var(--azul-quilmes);}
+  .menu-btn{display:none;background:none;border:none;font-size:26px;color:var(--azul-profundo);cursor:pointer;}
+
+  /* ---------- hero ---------- */
+  .hero{padding:64px 0 56px;}
+  .hero-grid{
+    display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:start;
+  }
+  .hero h1{font-size:52px;line-height:1.12;letter-spacing:-.01em;}
+  .hero p.lead{
+    font-size:17px;max-width:46ch;margin-top:20px;color:#31506a;
+  }
+  .hero-cta{
+    margin-top:30px;display:inline-flex;align-items:center;gap:10px;
+    font-weight:600;font-size:14px;color:var(--azul-quilmes);
+    border-bottom:2px solid var(--azul-quilmes);padding-bottom:3px;
+  }
+  .chain-rule{
+    display:flex;align-items:center;gap:6px;margin:26px 0;
+  }
+  .chain-rule svg{height:10px;}
+
+  .fecha-card{
+    background:#fff;border:1px solid var(--linea);
+    padding:30px 28px;position:relative;
+  }
+  .fecha-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:4px;
+    background:var(--rojo-cadena);
+  }
+  .fecha-card .tag{
+    font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;
+    color:var(--rojo-cadena);
+  }
+  .fecha-card .fecha-num{
+    font-family:'Libre Baskerville',serif;font-size:42px;font-weight:700;margin-top:10px;
+    color:var(--azul-profundo);
+  }
+  .fecha-card .fecha-desc{margin-top:6px;font-size:13.5px;color:#4b5f70;}
+  .fecha-card .fecha-titulo{
+    margin-top:16px;font-family:'Libre Baskerville',serif;font-size:20px;line-height:1.35;
+  }
+  .fecha-card .fecha-cuerpo{margin-top:10px;font-size:14px;color:#3c5165;}
+  .fecha-card .fecha-link{
+    display:inline-block;margin-top:16px;font-size:13px;font-weight:600;color:var(--azul-quilmes);
+    border-bottom:1px solid var(--azul-quilmes);
+  }
+
+  /* ---------- wave divider ---------- */
+  .wave-divider{padding:6px 0;}
+  .wave-divider svg{width:100%;height:26px;display:block;}
+
+  /* ---------- section heading ---------- */
+  .section{padding:64px 0;}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+    margin-bottom:36px;border-bottom:1px solid var(--linea);padding-bottom:18px;
+  }
+  .section-head h2{font-size:30px;}
+  .section-head .ver-todo{font-size:13px;font-weight:600;color:var(--azul-quilmes);white-space:nowrap;}
+
+  /* ---------- publicaciones ---------- */
+  .pub-grid{
+    display:grid;grid-template-columns:1.4fr 1fr;gap:32px;
+  }
+  .pub-principal{border:1px solid var(--linea);background:#fff;}
+  .pub-principal .img{
+    aspect-ratio:16/9;background:linear-gradient(135deg,var(--azul-quilmes),var(--azul-profundo));
+    display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Libre Baskerville',serif;
+    font-size:14px;letter-spacing:.03em;
+  }
+  .pub-principal .body{padding:26px 28px 30px;}
+  .pub-principal .cat{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dorado-sol);font-weight:700;}
+  .pub-principal h3{font-size:24px;margin-top:10px;line-height:1.3;}
+  .pub-principal p{margin-top:10px;font-size:14.5px;color:#425567;}
+  .pub-lista{display:flex;flex-direction:column;gap:0;}
+  .pub-item{
+    display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--linea);
+  }
+  .pub-item:first-child{padding-top:0;}
+  .pub-item .fecha{
+    font-family:'Libre Baskerville',serif;font-size:13px;color:var(--rojo-cadena);white-space:nowrap;min-width:64px;
+  }
+  .pub-item h4{font-family:'Libre Baskerville',serif;font-weight:700;font-size:16.5px;line-height:1.35;}
+  .pub-item p{margin-top:6px;font-size:13.5px;color:#4b5f70;}
+
+  /* ---------- efemerides calendario ---------- */
+  .efem-wrap{
+    background:var(--azul-profundo);color:var(--marfil);
+    padding:60px 0;
+  }
+  .efem-wrap .section-head{border-bottom-color:rgba(245,241,232,.2);}
+  .efem-wrap h2{color:var(--marfil);}
+  .efem-wrap .ver-todo{color:var(--dorado-sol);}
+  .efem-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;}
+  .calendario{
+    background:rgba(245,241,232,.05);border:1px solid rgba(245,241,232,.18);padding:24px;
+  }
+  .calendario .mes{
+    font-family:'Libre Baskerville',serif;font-size:18px;margin-bottom:16px;color:var(--dorado-sol);
+  }
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:12.5px;}
+  .cal-grid .dow{color:rgba(245,241,232,.5);font-weight:600;font-size:11px;padding-bottom:6px;}
+  .cal-grid .day{padding:8px 0;border-radius:2px;}
+  .cal-grid .day.marked{background:var(--rojo-cadena);color:#fff;font-weight:700;}
+  .cal-grid .day.today{outline:1px solid var(--dorado-sol);color:var(--dorado-sol);font-weight:700;}
+  .cal-grid .day.empty{opacity:0;}
+
+  .efem-lista{display:flex;flex-direction:column;gap:22px;}
+  .efem-lista .item{display:flex;gap:18px;}
+  .efem-lista .item .d{
+    font-family:'Libre Baskerville',serif;font-size:22px;color:var(--dorado-sol);min-width:74px;
+  }
+  .efem-lista .item h4{font-family:'Libre Baskerville',serif;font-size:16px;line-height:1.4;color:var(--marfil);}
+  .efem-lista .item p{margin-top:6px;font-size:13.5px;color:rgba(245,241,232,.72);}
+
+  /* ---------- redes ---------- */
+  .redes-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
+  .redes-copy p{margin-top:14px;font-size:15px;color:#3c5165;max-width:44ch;}
+  .fb-embed{
+    border:1px dashed #9fb3c2;background:#fff;
+    aspect-ratio:4/5;max-width:360px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+    color:#5a7186;font-size:13px;padding:24px;text-align:center;
+  }
+  .fb-embed .fmark{
+    width:44px;height:44px;border-radius:50%;background:var(--azul-quilmes);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:'Libre Baskerville',serif;font-weight:700;font-size:20px;
+  }
+
+  /* ---------- archivo (blogspot) ---------- */
+  .archivo-wrap{background:var(--marfil-sombra);}
+  .archivo-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:26px;
+  }
+  .archivo-card{
+    background:#faf6ec;border:1px solid var(--linea);padding:22px 22px 24px;
+    position:relative;
+  }
+  .archivo-card .etiqueta{
+    font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a7c5c;font-weight:700;
+  }
+  .archivo-card h4{font-family:'Libre Baskerville',serif;font-size:17px;line-height:1.35;margin-top:10px;}
+  .archivo-card p{margin-top:10px;font-size:13.5px;color:#5a5142;}
+  .archivo-card .fuente{
+    margin-top:16px;display:flex;justify-content:space-between;align-items:center;
+    font-size:12px;color:#8a7c5c;border-top:1px solid var(--linea);padding-top:12px;
+  }
+  .archivo-card .fuente a{font-weight:600;color:var(--rojo-cadena);}
+  .archivo-note{
+    margin-top:30px;font-size:13.5px;color:#5a5142;border-left:3px solid var(--rojo-cadena);padding-left:16px;
+  }
+
+  /* ---------- footer ---------- */
+  footer{background:var(--azul-profundo);color:var(--marfil);padding:56px 0 28px;}
+  .footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px;padding-bottom:36px;border-bottom:1px solid rgba(245,241,232,.15);}
+  .footer-brand{display:flex;gap:14px;align-items:flex-start;}
+  .footer-brand img{height:46px;width:auto;}
+  .footer-brand p{margin-top:10px;font-size:13.5px;color:rgba(245,241,232,.7);max-width:34ch;}
+  footer h5{font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dorado-sol);margin-bottom:16px;font-weight:700;}
+  footer ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:14px;color:rgba(245,241,232,.85);}
+  .footer-bottom{
+    display:flex;justify-content:space-between;padding-top:22px;font-size:12.5px;color:rgba(245,241,232,.55);
+  }
+
+  @media (max-width:860px){
+    nav{display:none;}
+    .menu-btn{display:block;}
+    .hero-grid,.pub-grid,.efem-grid,.redes-grid{grid-template-columns:1fr;}
+    .archivo-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr;gap:28px;}
+    .hero h1{font-size:36px;}
+    .redes-grid{gap:24px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="#inicio">
+      <img src="assets/isotipo.png" alt="Isotipo Asociación Los Quilmeros">
+      <div class="brand-text">
+        <div class="eyebrow">Asociación</div>
+        <div class="name">Los Quilmeros</div>
+      </div>
+    </a>
+    <nav>
+      <a href="#publicaciones">Publicaciones</a>
+      <a href="#efemerides">Efemérides</a>
+      <a href="#redes">Redes</a>
+      <a href="#archivo">Archivo El Quilmero</a>
+      <a href="#footer">Contacto</a>
+    </nav>
+    <button class="menu-btn" aria-label="Abrir menú">☰</button>
+  </div>
+</header>
+
+<section class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>La historia de<br>Quilmes, viva.</h1>
+      <div class="chain-rule">
+        <svg viewBox="0 0 120 12" width="120"><g fill="none" stroke="#A22929" stroke-width="2.2"><ellipse cx="8" cy="6" rx="6" ry="4"/><ellipse cx="20" cy="6" rx="6" ry="4"/><ellipse cx="32" cy="6" rx="6" ry="4"/><ellipse cx="44" cy="6" rx="6" ry="4"/></g></svg>
+      </div>
+      <p class="lead">Somos la Agrupación Los Quilmeros, un grupo de historiadores dedicado a investigar y difundir la historia del partido de Quilmes: sus orígenes, sus instituciones, sus barrios y la gente que los hizo. Este espacio reúne nuestras publicaciones, un calendario de efemérides locales y el archivo completo de "El Quilmero".</p>
+      <a class="hero-cta" href="#footer">Sumate a la asociación</a>
+    </div>
+
+    <div class="fecha-card">
+      <div class="tag">Una fecha para recordar</div>
+      <div class="fecha-num">14 de agosto</div>
+      <div class="fecha-desc">1812 — Bando del Primer Triunvirato</div>
+      <div class="fecha-titulo">El día en que la Reducción de Quilmes se declaró libre</div>
+      <p class="fecha-cuerpo">Casi ciento cincuenta años después de la fundación de la Reducción, el Primer Triunvirato disolvió el régimen y declaró libre de esclavitud al territorio de Quilmes: el origen de la fecha que hoy celebramos como aniversario de la ciudad.</p>
+      <a class="fecha-link" href="#efemerides">Ver el calendario completo</a>
+    </div>
+  </div>
+</section>
+
+<div class="wave-divider">
+  <svg viewBox="0 0 1200 26" preserveAspectRatio="none"><path d="M0 13 Q 25 3 50 13 T 100 13 T 150 13 T 200 13 T 250 13 T 300 13 T 350 13 T 400 13 T 450 13 T 500 13 T 550 13 T 600 13 T 650 13 T 700 13 T 750 13 T 800 13 T 850 13 T 900 13 T 950 13 T 1000 13 T 1050 13 T 1100 13 T 1150 13 T 1200 13" fill="none" stroke="#1268A8" stroke-width="2" opacity="0.55"/></svg>
+</div>
+
+<section class="section" id="publicaciones">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Publicaciones</h2>
+      <a class="ver-todo" href="#">Ver todas las publicaciones</a>
+    </div>
+    <div class="pub-grid">
+      <article class="pub-principal">
+        <div class="img">Fotografía histórica — a incorporar</div>
+        <div class="body">
+          <div class="cat">Patrimonio</div>
+          <h3>Relevamiento del casco fundacional: qué edificios siguen en pie</h3>
+          <p>Un recorrido por las construcciones más antiguas del centro de Quilmes que todavía resisten al paso del tiempo, y el estado de las gestiones para su protección patrimonial.</p>
+        </div>
+      </article>
+      <div class="pub-lista">
+        <div class="pub-item">
+          <div class="fecha">Sep. 12</div>
+          <div>
+            <h4>Los clubes de barrio y su rol en la identidad quilmeña</h4>
+            <p>Segunda entrega de la serie sobre instituciones deportivas y sociales del partido.</p>
+          </div>
+        </div>
+        <div class="pub-item">
+          <div class="fecha">Sep. 05</div>
+          <div>
+            <h4>Entrevista a un vecino ferroviario de San Francisco Solano</h4>
+            <p>Testimonios sobre los años del Ferrocarril Provincial en la zona sur del partido.</p>
+          </div>
+        </div>
+        <div class="pub-item">
+          <div class="fecha">Ago. 28</div>
+          <div>
+            <h4>Nueva charla abierta: mujeres en la historia de Quilmes</h4>
+            <p>Convocatoria a la próxima jornada de la asociación, abierta a la comunidad.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="efem-wrap" id="efemerides">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Calendario de efemérides</h2>
+      <a class="ver-todo" href="#">Ver calendario completo</a>
+    </div>
+    <div class="efem-grid">
+      <div class="calendario">
+        <div class="mes">Septiembre</div>
+        <div class="cal-grid">
+          <div class="dow">L</div><div class="dow">M</div><div class="dow">M</div><div class="dow">J</div><div class="dow">V</div><div class="dow">S</div><div class="dow">D</div>
+          <div class="day empty"></div><div class="day empty"></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div>
+          <div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div>
+          <div class="day">13</div><div class="day">14</div><div class="day today">15</div><div class="day">16</div><div class="day marked">17</div><div class="day">18</div><div class="day">19</div>
+          <div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day marked">25</div><div class="day">26</div>
+        </div>
+      </div>
+      <div class="efem-lista">
+        <div class="item">
+          <div class="d">24 oct</div>
+          <div>
+            <h4>1580 — Reparto de tierras de Juan de Garay</h4>
+            <p>Las tierras de la actual Quilmes se distribuyen entre los primeros estancieros de la región.</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="d">1666</div>
+          <div>
+            <h4>Fundación de la Reducción de Santa Cruz de los Kilmes</h4>
+            <p>Llegada del pueblo Kilmes tras su traslado forzoso desde los Valles Calchaquíes.</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="d">14 ago</div>
+          <div>
+            <h4>1812 — Quilmes, territorio libre</h4>
+            <p>El Primer Triunvirato disuelve la Reducción y declara libre de esclavitud al territorio.</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="d">02 ago</div>
+          <div>
+            <h4>1916 — Quilmes es elevada a ciudad</h4>
+            <p>La ley provincial Nº 3627 le otorga oficialmente el estatus de ciudad al partido.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="redes">
+  <div class="wrap redes-grid">
+    <div class="redes-copy">
+      <div class="cal-mes" style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--azul-quilmes);">En las redes</div>
+      <h2 style="margin-top:10px;">Lo último de nuestra página de Facebook</h2>
+      <p>La asociación comparte novedades, fotos de archivo y convocatorias todos los días en Facebook. Acá vas a poder ver ese mismo contenido sin salir del sitio, actualizado automáticamente con el widget oficial de Meta.</p>
+    </div>
+    <div class="fb-embed">
+      <div class="fmark">f</div>
+      <div>Acá se va a integrar el feed en vivo de la página de Facebook de la asociación.</div>
+    </div>
+  </div>
+</section>
+
+<div class="archivo-wrap section" id="archivo">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Archivo "El Quilmero"</h2>
+      <a class="ver-todo" href="https://elquilmero.blogspot.com/" target="_blank" rel="noopener">Ir al blog original</a>
+    </div>
+    <div class="archivo-grid">
+      <div class="archivo-card">
+        <div class="etiqueta">Patrimonio · San Francisco Solano</div>
+        <h4>Una parada de tren que espera ser declarada patrimonio</h4>
+        <p>Juan Corvalán repasa la historia de la Parada Km 46,139 del Ferrocarril Provincial y el reclamo, aún pendiente, para que sea reconocida como sitio histórico.</p>
+        <div class="fuente"><span>El Quilmero, 2022</span><a href="https://elquilmero.blogspot.com/2022/06/parada-km-46139-del-ferrocarril.html" target="_blank" rel="noopener">Leer nota</a></div>
+      </div>
+      <div class="archivo-card">
+        <div class="etiqueta">Instituciones · Berazategui</div>
+        <h4>Los primeros 50 años de la Unidad Sanitaria Nº1</h4>
+        <p>Un repaso histórico sobre "La Sábatto", el centro de salud que fue referencia de Berazategui antes de la construcción del Hospital Evita Pueblo.</p>
+        <div class="fuente"><span>El Quilmero, 2022</span><a href="https://elquilmero.blogspot.com/2022/06/unidad-sanitaria-n1-dr-javier-sabatto.html" target="_blank" rel="noopener">Leer nota</a></div>
+      </div>
+      <div class="archivo-card">
+        <div class="etiqueta">Comunidades originarias · Teatro</div>
+        <h4>"Luna Kakana": llevar la memoria del pueblo Kilmes al escenario</h4>
+        <p>La génesis de una obra de teatro construida junto a comunidades diaguitas calchaquíes, a partir de investigación de campo en Quilmes y en el Noroeste argentino.</p>
+        <div class="fuente"><span>El Quilmero, 2022</span><a href="https://elquilmero.blogspot.com/2022/06/luna-kakana-obra-de-teatro-sintesis-de.html" target="_blank" rel="noopener">Leer nota</a></div>
+      </div>
+    </div>
+    <p class="archivo-note">Estas tres notas son un ejemplo de cómo se vería el archivo. En la primera versión del sitio vamos a cargar las entradas más recientes del blog y sumar el resto del historial más adelante.</p>
+  </div>
+</div>
+
+<footer id="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="assets/isotipo.png" alt="Isotipo Asociación Los Quilmeros">
+        <div>
+          <div class="name serif" style="color:var(--marfil);font-size:18px;">Asociación Los Quilmeros</div>
+          <p>Investigación, historia y patrimonio del partido de Quilmes.</p>
+        </div>
+      </div>
+      <div>
+        <h5>Explorar</h5>
+        <ul>
+          <li><a href="#publicaciones">Publicaciones</a></li>
+          <li><a href="#efemerides">Efemérides</a></li>
+          <li><a href="#archivo">Archivo El Quilmero</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contacto</h5>
+        <ul>
+          <li>Página de Facebook</li>
+          <li>Correo de la asociación</li>
+          <li>Quilmes, Buenos Aires</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Asociación de Historiadores "Los Quilmeros"</span>
+      <span>Página de prueba — diseño en revisión</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
