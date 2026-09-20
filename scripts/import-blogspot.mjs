@@ -38,11 +38,16 @@ function decodeEntities(texto = '') {
 }
 
 function limpiarHtml(html = '') {
-  return decodeEntities(html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim())
+  const sinRuido = html
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ') // CSS embebido (a veces con metadata de Word)
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<!--[\s\S]*?-->/g, ' ') // comentarios HTML y bloques condicionales de Word (mso)
+  return decodeEntities(sinRuido.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim())
 }
 
 function resumen(html = '', maxLen = 220) {
   const texto = limpiarHtml(html)
+  if (!texto) return 'Nota con contenido multimedia (foto o video) — ver la nota completa.'
   return texto.length > maxLen ? texto.slice(0, maxLen).trim() + '…' : texto
 }
 
@@ -93,7 +98,13 @@ async function importarNota(url) {
 
   const fecha = extraerCampo(html, /class=['"]published['"][^>]*itemprop=['"]datePublished['"][^>]*title=['"]([^'"]+)['"]/)
 
-  const cuerpoHtml = extraerCampo(html, new RegExp(`id=['"]post-body-${blogPostId}['"][^>]*>([\\s\\S]{0,4000})`))
+  // Se corta justo antes del pie de la nota (post-footer), donde Blogger mete los botones
+  // de compartir y el "Publicado por..." — si no, en notas muy cortas (una sola foto) el
+  // resumen terminaba agarrando ese texto de relleno en vez de contenido real.
+  const cuerpoHtml = extraerCampo(
+    html,
+    new RegExp(`id=['"]post-body-${blogPostId}['"][^>]*>([\\s\\S]*?)<div class=['"]post-footer['"]`)
+  )
 
   const etiquetas = [...html.matchAll(/rel=['"]tag['"][^>]*>([^<]*)</g)]
     .map((m) => decodeEntities(m[1].trim()))
@@ -134,9 +145,14 @@ async function procesarEnTandas(urls, tamanioTanda, fn) {
 }
 
 async function main() {
-  console.log('Leyendo sitemap de', BLOG_URL, '...')
-  let urls = await obtenerUrlsDeNotas()
-  if (process.env.IMPORT_LIMIT) urls = urls.slice(0, Number(process.env.IMPORT_LIMIT))
+  let urls
+  if (process.env.TEST_URLS) {
+    urls = process.env.TEST_URLS.split(',')
+  } else {
+    console.log('Leyendo sitemap de', BLOG_URL, '...')
+    urls = await obtenerUrlsDeNotas()
+    if (process.env.IMPORT_LIMIT) urls = urls.slice(0, Number(process.env.IMPORT_LIMIT))
+  }
   console.log(`Encontradas ${urls.length} notas. Importando a Sanity...`)
 
   const {ok, error} = await procesarEnTandas(urls, CONCURRENCIA, importarNota)
