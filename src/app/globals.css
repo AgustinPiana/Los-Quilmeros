@@ -231,16 +231,23 @@
   .fb-post .who{font-size:13.5px;font-weight:600;}
   .fb-post .cuando{font-size:11.5px;color:#7c8a96;}
   .fb-post p{font-size:14px;color:#334452;}
-  .fb-embed-frame{
-    background:#fff;border:1px solid rgba(255,255,255,.4);
-    min-height:460px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
-    color:#5a7186;font-size:13.5px;padding:30px;text-align:center;
+  .fb-cta-card{
+    background:#fff;border-radius:2px;
+    display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+    padding:26px 28px;
   }
-  .fb-embed-frame .fmark{
-    width:56px;height:56px;border-radius:50%;background:var(--azul-quilmes);color:#fff;
+  .fb-cta-card .fmark{
+    width:56px;height:56px;border-radius:50%;background:var(--azul-quilmes);color:#fff;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;font-family: var(--font-serif), serif;font-weight:700;font-size:26px;
   }
-  .fb-embed-frame strong{color:var(--azul-profundo);font-size:15px;}
+  .fb-cta-texto{flex:1;min-width:200px;}
+  .fb-cta-texto strong{color:var(--azul-profundo);font-size:16px;font-family: var(--font-serif), serif;}
+  .fb-cta-texto p{margin-top:4px;font-size:13.5px;color:#5a7186;}
+  .fb-cta-btn{
+    background:var(--azul-quilmes);color:#fff;font-weight:600;font-size:14px;
+    padding:12px 24px;white-space:nowrap;
+  }
+  .fb-cta-btn:hover{background:var(--azul-profundo);}
 
   /* ---------- archivo (blogspot) ---------- */
   .archivo-wrap{background:var(--marfil-sombra);}

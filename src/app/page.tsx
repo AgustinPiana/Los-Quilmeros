@@ -165,15 +165,25 @@ export default async function Home() {
           <div className="redes-head">
             <div>
               <div className="tag">En las redes</div>
-              <h2>Lo último de nuestra página de Facebook</h2>
-              <p>Reemplazá el marco de acá abajo por el plugin de página oficial de Meta cuando tengas el link definitivo de la página.</p>
+              <h2>Sumate a nuestro grupo de Facebook</h2>
+              <p>Compartimos novedades, fotos de archivo y charlas sobre la historia de Quilmes con la comunidad.</p>
             </div>
           </div>
           <div className="redes-body">
-            <div className="fb-embed-frame" style={{gridColumn: '1 / -1'}}>
+            <div className="fb-cta-card" style={{gridColumn: '1 / -1'}}>
               <div className="fmark">f</div>
-              <strong>Feed en vivo de Facebook</strong>
-              <div>Pendiente: pegar acá el embed oficial de la página de Facebook de la asociación.</div>
+              <div className="fb-cta-texto">
+                <strong>Asociación Los Quilmeros</strong>
+                <p>Grupo público en Facebook, con más de 800 integrantes.</p>
+              </div>
+              <a
+                className="fb-cta-btn"
+                href="https://www.facebook.com/groups/589317591242180/"
+                target="_blank"
+                rel="noopener"
+              >
+                Unirme al grupo
+              </a>
             </div>
           </div>
         </div>
