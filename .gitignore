@@ -16,6 +16,9 @@
 # vercel
 .vercel
 
+# archivos internos del asistente de IA local (no del proyecto)
+.claude/
+
 # misc
 .DS_Store
 *.pem
