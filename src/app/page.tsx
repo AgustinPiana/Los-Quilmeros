@@ -1,4 +1,4 @@
-import {getPublicaciones, getEfemeridesDeHoy, getEfemeridesDelMes, getArchivoEntries} from '@/lib/queries'
+import {getPublicaciones, getEfemeridesDelMes, getArchivoEntries} from '@/lib/queries'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -23,14 +23,12 @@ export default async function Home() {
 
   // Si Sanity todavía no tiene contenido cargado, cada función devuelve vacío/null
   // y la página cae en los textos de reserva de abajo (no rompe el sitio).
-  const [publicaciones, efemeridesHoy, efemeridesMes, archivo] = await Promise.all([
+  const [publicaciones, efemeridesMes, archivo] = await Promise.all([
     getPublicaciones().catch(() => ({destacada: null, recientes: []})),
-    getEfemeridesDeHoy(dia, mes).catch(() => []),
     getEfemeridesDelMes(mes).catch(() => []),
     getArchivoEntries(6).catch(() => []),
   ])
 
-  const efemerideDestacada = efemeridesHoy?.[0]
   const celdasDelMes = armarCeldasDelMes(hoy.getFullYear(), hoy.getMonth())
   const diasConEfemeride = new Set((efemeridesMes || []).map((e: any) => e.dia))
 
@@ -39,41 +37,21 @@ export default async function Home() {
       <Header />
 
       <section className="hero" id="inicio">
-        <div className="wrap hero-grid">
-          <div>
-            <h1>La historia de<br />Quilmes, viva.</h1>
-            <div className="chain-rule">
-              <svg viewBox="0 0 120 12" width="120"><g fill="none" stroke="#A22929" strokeWidth={2.2}><ellipse cx="8" cy="6" rx="6" ry="4" /><ellipse cx="20" cy="6" rx="6" ry="4" /><ellipse cx="32" cy="6" rx="6" ry="4" /><ellipse cx="44" cy="6" rx="6" ry="4" /></g></svg>
-            </div>
-            <p className="lead">
-              Somos la Agrupación Los Quilmeros, un grupo de historiadores dedicado a investigar y difundir la
-              historia del partido de Quilmes. Este espacio reúne nuestras publicaciones, un calendario de
-              efemérides locales y el archivo completo de &quot;El Quilmero&quot;.
-            </p>
-            <a className="hero-cta" href="#footer">Sumate a la asociación</a>
+        <div className="wrap hero-content">
+          <div className="hero-eyebrow">
+            <svg viewBox="0 0 40 12" width="40" height="12"><g fill="none" stroke="#A22929" strokeWidth={2.2}><ellipse cx="6" cy="6" rx="5" ry="4" /><ellipse cx="16" cy="6" rx="5" ry="4" /><ellipse cx="26" cy="6" rx="5" ry="4" /></g></svg>
+            <span className="label">Memoria e identidad local</span>
+            <span className="rule" />
           </div>
-
-          <div className="fecha-card">
-            <div className="tag">Una fecha para recordar</div>
-            {efemerideDestacada ? (
-              <>
-                <div className="fecha-num">{dia} de {MESES[mes - 1]}</div>
-                {efemerideDestacada.anioHistorico && (
-                  <div className="fecha-desc">{efemerideDestacada.anioHistorico}</div>
-                )}
-                <div className="fecha-titulo">{efemerideDestacada.titulo}</div>
-                <p className="fecha-cuerpo">{efemerideDestacada.texto}</p>
-              </>
-            ) : (
-              <>
-                <div className="fecha-num">Sin efeméride cargada</div>
-                <div className="fecha-titulo">Todavía no hay una efeméride para el {dia} de {MESES[mes - 1]}</div>
-                <p className="fecha-cuerpo">
-                  Cargalas desde el panel en <code>/studio</code> — el tipo de contenido &quot;Efeméride&quot; ya está listo.
-                </p>
-              </>
-            )}
-            <a className="fecha-link" href="#efemerides">Ver el calendario completo</a>
+          <h1>La historia de Quilmes, viva.</h1>
+          <p className="lead">
+            Somos la Agrupación Los Quilmeros, un grupo de historiadores dedicado a investigar y difundir la
+            historia del partido de Quilmes. Este espacio reúne nuestras publicaciones, un calendario de
+            efemérides locales y el archivo completo de &quot;El Quilmero&quot;.
+          </p>
+          <div className="hero-actions">
+            <a className="hero-cta" href="#footer">Sumate a la asociación →</a>
+            <a className="hero-cta-secondary" href="#archivo">Explorar archivo</a>
           </div>
         </div>
       </section>
@@ -171,7 +149,11 @@ export default async function Home() {
           </div>
           <div className="redes-body">
             <div className="fb-cta-card" style={{gridColumn: '1 / -1'}}>
-              <div className="fmark">f</div>
+              <div className="fmark">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#fff" aria-hidden="true">
+                  <path d="M22 12.06C22 6.48 17.52 2 11.94 2S2 6.48 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.51 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z" />
+                </svg>
+              </div>
               <div className="fb-cta-texto">
                 <strong>Asociación Los Quilmeros</strong>
                 <p>Grupo público en Facebook, con más de 800 integrantes.</p>
