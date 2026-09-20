@@ -1,18 +1,22 @@
-// Importa TODAS las entradas de https://elquilmero.blogspot.com/ a Sanity,
-// usando el feed público de Blogger (no requiere login ni API key).
+// Importa TODAS las entradas de https://elquilmero.blogspot.com/ a Sanity.
+//
+// El feed clásico de Blogger (feeds/posts/default) fue dado de baja por Google, así que
+// esta versión recorre el sitemap.xml del blog (que Blogger sigue generando) y extrae
+// título/fecha/etiquetas/contenido/imagen directamente del HTML de cada nota.
 //
 // Uso:
-//   1) npm install @sanity/client dotenv   (no están en package.json a propósito:
-//      este script corre una sola vez, no hace falta cargarlo en el bundle del sitio)
+//   1) npm install (ya deja instalados @sanity/client y dotenv como devDependencies)
 //   2) Completá .env.local con SANITY_API_TOKEN (un token "Editor" generado en
 //      sanity.io/manage → API → Tokens) además de las variables NEXT_PUBLIC_SANITY_*
 //   3) node scripts/import-blogspot.mjs
 
 import {createClient} from '@sanity/client'
-import 'dotenv/config'
+import dotenv from 'dotenv'
+
+dotenv.config({path: '.env.local'})
 
 const BLOG_URL = 'https://elquilmero.blogspot.com'
-const MAX_RESULTS = 150 // máximo que entrega el feed de Blogger por request
+const CONCURRENCIA = 8
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -22,8 +26,19 @@ const client = createClient({
   useCdn: false,
 })
 
+function decodeEntities(texto = '') {
+  return texto
+    .replace(/&#(\d+);/g, (_, cod) => String.fromCharCode(Number(cod)))
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+}
+
 function limpiarHtml(html = '') {
-  return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+  return decodeEntities(html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim())
 }
 
 function resumen(html = '', maxLen = 220) {
@@ -31,70 +46,102 @@ function resumen(html = '', maxLen = 220) {
   return texto.length > maxLen ? texto.slice(0, maxLen).trim() + '…' : texto
 }
 
-async function traerPagina(startIndex) {
-  const url = `${BLOG_URL}/feeds/posts/default?alt=json&max-results=${MAX_RESULTS}&start-index=${startIndex}`
+async function obtenerUrlsDeNotas() {
+  const indexRes = await fetch(`${BLOG_URL}/sitemap.xml`)
+  if (!indexRes.ok) throw new Error(`No se pudo leer sitemap.xml (${indexRes.status})`)
+  const indexXml = await indexRes.text()
+  const paginas = [...indexXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1])
+
+  const urls = []
+  for (const paginaUrl of paginas) {
+    const res = await fetch(paginaUrl)
+    if (!res.ok) {
+      console.warn(`  ! no se pudo leer ${paginaUrl} (${res.status})`)
+      continue
+    }
+    const xml = await res.text()
+    const encontradas = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1])
+    urls.push(...encontradas)
+  }
+  return urls
+}
+
+function extraerCampo(html, regex) {
+  const match = html.match(regex)
+  return match ? match[1] : null
+}
+
+async function importarNota(url) {
   const res = await fetch(url)
-  if (!res.ok) throw new Error(`Feed devolvió ${res.status} en start-index=${startIndex}`)
-  const data = await res.json()
-  return data.feed?.entry || []
-}
+  if (!res.ok) {
+    console.warn(`  ! ${url} devolvió ${res.status}, se salteó`)
+    return false
+  }
+  const html = await res.text()
 
-function extraerImagen(entry) {
-  const media = entry['media$thumbnail']
-  if (media?.url) return media.url.replace(/\/s\d+(-c)?\//, '/s1200/')
-  return null
-}
+  const blogPostId = extraerCampo(html, /id=['"]post-body-(\d+)['"]/)
+  if (!blogPostId) {
+    console.warn(`  ! no se encontró post-body en ${url}, se salteó`)
+    return false
+  }
 
-function extraerUrl(entry) {
-  const link = (entry.link || []).find((l) => l.rel === 'alternate')
-  return link?.href || null
-}
+  const tituloHtml = extraerCampo(
+    html,
+    /class=['"]post-title entry-title['"][^>]*itemprop=['"]name['"][^>]*>([\s\S]*?)<\/h3>/
+  )
+  const titulo = tituloHtml ? decodeEntities(tituloHtml.replace(/<[^>]+>/g, '').trim()) : 'Sin título'
 
-async function importarEntrada(entry) {
-  const blogPostId = entry.id?.$t
-  const titulo = entry.title?.$t || 'Sin título'
-  const contenidoHtml = entry.content?.$t || entry.summary?.$t || ''
-  const fecha = entry.published?.$t
-  const etiquetas = (entry.category || []).map((c) => c.term).filter(Boolean)
-  const urlOriginal = extraerUrl(entry)
+  const fecha = extraerCampo(html, /class=['"]published['"][^>]*itemprop=['"]datePublished['"][^>]*title=['"]([^'"]+)['"]/)
 
+  const cuerpoHtml = extraerCampo(html, new RegExp(`id=['"]post-body-${blogPostId}['"][^>]*>([\\s\\S]{0,4000})`))
+
+  const etiquetas = [...html.matchAll(/rel=['"]tag['"][^>]*>([^<]*)</g)]
+    .map((m) => decodeEntities(m[1].trim()))
+    .filter(Boolean)
+
+  // La imagen NO se sube en esta pasada (requeriría descargar y subir cada asset a Sanity
+  // uno por uno). Se puede sumar como segunda pasada si hace falta más adelante.
   const doc = {
-    _id: `archivoEntry.${Buffer.from(blogPostId).toString('base64url')}`,
+    // Sin punto en el id: un "." en el _id lo trata como documento versionado/de un
+    // release en el content lake de Sanity, y queda invisible para lecturas públicas.
+    _id: `archivoEntry-${Buffer.from(blogPostId).toString('base64url')}`,
     _type: 'archivoEntry',
     titulo,
-    fecha,
-    resumen: resumen(contenidoHtml),
+    fecha: fecha || undefined,
+    resumen: resumen(cuerpoHtml || ''),
     etiquetas,
-    urlOriginal,
+    urlOriginal: url,
     blogPostId,
-    // La imagen NO se sube automáticamente en esta versión del script (subir imágenes
-    // a Sanity requiere descargarlas y hacer un asset upload por nota). Se puede sumar
-    // como segunda pasada si hace falta.
   }
 
   await client.createOrReplace(doc)
+  return true
+}
+
+async function procesarEnTandas(urls, tamanioTanda, fn) {
+  let ok = 0
+  let error = 0
+  for (let i = 0; i < urls.length; i += tamanioTanda) {
+    const tanda = urls.slice(i, i + tamanioTanda)
+    const resultados = await Promise.allSettled(tanda.map(fn))
+    for (const r of resultados) {
+      if (r.status === 'fulfilled' && r.value) ok += 1
+      else error += 1
+    }
+    console.log(`  · procesadas ${Math.min(i + tamanioTanda, urls.length)}/${urls.length} (ok: ${ok}, error/salteadas: ${error})`)
+  }
+  return {ok, error}
 }
 
 async function main() {
-  console.log('Importando entradas de', BLOG_URL, '...')
-  let startIndex = 1
-  let total = 0
+  console.log('Leyendo sitemap de', BLOG_URL, '...')
+  let urls = await obtenerUrlsDeNotas()
+  if (process.env.IMPORT_LIMIT) urls = urls.slice(0, Number(process.env.IMPORT_LIMIT))
+  console.log(`Encontradas ${urls.length} notas. Importando a Sanity...`)
 
-  while (true) {
-    const entries = await traerPagina(startIndex)
-    if (!entries.length) break
+  const {ok, error} = await procesarEnTandas(urls, CONCURRENCIA, importarNota)
 
-    for (const entry of entries) {
-      await importarEntrada(entry)
-      total += 1
-    }
-
-    console.log(`  · procesadas ${total} notas (última tanda: ${entries.length})`)
-    if (entries.length < MAX_RESULTS) break
-    startIndex += MAX_RESULTS
-  }
-
-  console.log(`Listo. ${total} notas importadas/actualizadas en Sanity.`)
+  console.log(`Listo. ${ok} notas importadas/actualizadas en Sanity (${error} salteadas por error).`)
 }
 
 main().catch((err) => {
