@@ -47,6 +47,12 @@
   nav{display:flex;gap:30px;font-size:14px;font-weight:500;}
   nav a{position:relative;padding:4px 0;}
   nav a:hover{color:var(--azul-quilmes);}
+  .header-actions{display:flex;align-items:center;gap:16px;}
+  .login-btn{
+    font-size:13px;font-weight:600;color:#fff;background:var(--azul-quilmes);
+    padding:9px 18px;white-space:nowrap;
+  }
+  .login-btn:hover{background:var(--azul-profundo);}
   .menu-btn{display:none;background:none;border:none;font-size:26px;color:var(--azul-profundo);cursor:pointer;}
 
   /* ---------- hero ---------- */
@@ -107,8 +113,8 @@
   .section-head h2{font-size:30px;}
   .section-head .ver-todo{font-size:13px;font-weight:600;color:var(--azul-quilmes);white-space:nowrap;}
 
-  /* ---------- institución ---------- */
-  .institucion-wrap{background:#fff;}
+  /* ---------- institución (página propia) ---------- */
+  .institucion-page{background:#fff;}
   .inst-historia{max-width:74ch;}
   .inst-historia h3{font-size:22px;margin-bottom:16px;}
   .inst-historia p{font-size:15px;color:#3c5165;margin-top:14px;}
@@ -281,6 +287,7 @@
   @media (max-width:860px){
     nav{display:none;}
     .menu-btn{display:block;}
+    .login-btn{padding:8px 14px;font-size:12.5px;}
     .hero-grid,.pub-grid,.efem-grid,.redes-body{grid-template-columns:1fr;}
     .archivo-grid{grid-template-columns:1fr;}
     .inst-bandera{grid-template-columns:1fr;}

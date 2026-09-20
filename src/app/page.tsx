@@ -1,13 +1,6 @@
-import Image from 'next/image'
-import {
-  getPublicaciones,
-  getEfemeridesDeHoy,
-  getEfemeridesDelMes,
-  getArchivoEntries,
-  getInstitucion,
-  getAutoridades,
-} from '@/lib/queries'
-import {urlFor} from '@/lib/sanity'
+import {getPublicaciones, getEfemeridesDeHoy, getEfemeridesDelMes, getArchivoEntries} from '@/lib/queries'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
 const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre']
 const DIAS_SEMANA = ['L','M','M','J','V','S','D']
@@ -30,13 +23,11 @@ export default async function Home() {
 
   // Si Sanity todavía no tiene contenido cargado, cada función devuelve vacío/null
   // y la página cae en los textos de reserva de abajo (no rompe el sitio).
-  const [publicaciones, efemeridesHoy, efemeridesMes, archivo, institucion, autoridades] = await Promise.all([
+  const [publicaciones, efemeridesHoy, efemeridesMes, archivo] = await Promise.all([
     getPublicaciones().catch(() => ({destacada: null, recientes: []})),
     getEfemeridesDeHoy(dia, mes).catch(() => []),
     getEfemeridesDelMes(mes).catch(() => []),
     getArchivoEntries(6).catch(() => []),
-    getInstitucion().catch(() => null),
-    getAutoridades().catch(() => []),
   ])
 
   const efemerideDestacada = efemeridesHoy?.[0]
@@ -45,26 +36,7 @@ export default async function Home() {
 
   return (
     <>
-      <header>
-        <div className="header-inner">
-          <a className="brand" href="#inicio">
-            <Image src="/isotipo.png" alt="Isotipo Asociación Los Quilmeros" width={720} height={376} style={{height: 44, width: 'auto'}} priority />
-            <div className="brand-text">
-              <div className="eyebrow">Asociación</div>
-              <div className="name">Los Quilmeros</div>
-            </div>
-          </a>
-          <nav>
-            <a href="#institucion">Institución</a>
-            <a href="#publicaciones">Publicaciones</a>
-            <a href="#efemerides">Efemérides</a>
-            <a href="#redes">Redes</a>
-            <a href="#archivo">Archivo El Quilmero</a>
-            <a href="#footer">Contacto</a>
-          </nav>
-          <button className="menu-btn" aria-label="Abrir menú">☰</button>
-        </div>
-      </header>
+      <Header />
 
       <section className="hero" id="inicio">
         <div className="wrap hero-grid">
@@ -110,84 +82,6 @@ export default async function Home() {
         <svg viewBox="0 0 1200 26" preserveAspectRatio="none">
           <path d="M0 13 Q 25 3 50 13 T 100 13 T 150 13 T 200 13 T 250 13 T 300 13 T 350 13 T 400 13 T 450 13 T 500 13 T 550 13 T 600 13 T 650 13 T 700 13 T 750 13 T 800 13 T 850 13 T 900 13 T 950 13 T 1000 13 T 1050 13 T 1100 13 T 1150 13 T 1200 13" fill="none" stroke="#1268A8" strokeWidth={2} opacity={0.55} />
         </svg>
-      </div>
-
-      <div className="institucion-wrap section" id="institucion">
-        <div className="wrap">
-          <div className="section-head">
-            <h2>Institución</h2>
-          </div>
-
-          <div className="inst-historia">
-            <h3>{institucion?.historiaTitulo || 'Nuestra historia'}</h3>
-            {institucion?.historia ? (
-              institucion.historia
-                .split('\n\n')
-                .map((parrafo: string, i: number) => <p key={i}>{parrafo}</p>)
-            ) : (
-              <p>
-                Cargá la historia de la fundación de la asociación desde el panel en <code>/studio</code> — el tipo
-                de contenido &quot;Institución&quot; ya está listo.
-              </p>
-            )}
-          </div>
-
-          <div className="inst-bandera">
-            <div className="inst-bandera-img">
-              {institucion?.bandera ? (
-                <Image
-                  src={urlFor(institucion.bandera).width(640).height(427).url()}
-                  alt="Bandera de la Asociación Los Quilmeros"
-                  width={640}
-                  height={427}
-                />
-              ) : (
-                <div className="inst-bandera-placeholder">Subí la imagen de la bandera desde /studio</div>
-              )}
-            </div>
-            <div className="inst-bandera-texto">
-              <h3>La bandera y su simbología</h3>
-              {institucion?.banderaIntro && <p className="inst-bandera-intro">{institucion.banderaIntro}</p>}
-              {institucion?.simbologia?.length ? (
-                <dl className="inst-simbologia">
-                  {institucion.simbologia.map((s: any, i: number) => (
-                    <div className="inst-simbolo" key={i}>
-                      <dt>{s.elemento}</dt>
-                      <dd>{s.significado}</dd>
-                    </div>
-                  ))}
-                </dl>
-              ) : (
-                <p>Cargá cada elemento de la bandera y su significado desde /studio.</p>
-              )}
-            </div>
-          </div>
-
-          <div className="inst-autoridades">
-            <h3>Autoridades</h3>
-            <div className="autoridades-grid">
-              {(autoridades?.length ? autoridades : []).map((a: any, i: number) => (
-                <div className="autoridad-card" key={i}>
-                  <div className="autoridad-foto">
-                    {a.foto ? (
-                      <Image src={urlFor(a.foto).width(240).height(240).url()} alt={a.nombre} width={240} height={240} />
-                    ) : (
-                      <div className="autoridad-foto-placeholder">{a.nombre?.[0] || '?'}</div>
-                    )}
-                  </div>
-                  <div className="autoridad-cargo">{a.cargo}</div>
-                  <h4>{a.nombre}</h4>
-                  {a.descripcion && <p>{a.descripcion}</p>}
-                </div>
-              ))}
-            </div>
-            {!autoridades?.length && (
-              <p style={{color: '#5a7186', fontSize: 14}}>
-                Cargá las autoridades de la asociación desde /studio y van a aparecer acá.
-              </p>
-            )}
-          </div>
-        </div>
       </div>
 
       <section className="section" id="publicaciones">
@@ -313,40 +207,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <footer id="footer">
-        <div className="wrap">
-          <div className="footer-grid">
-            <div className="footer-brand">
-              <Image src="/isotipo.png" alt="Isotipo Asociación Los Quilmeros" width={720} height={376} style={{height: 46, width: 'auto'}} />
-              <div>
-                <div className="serif" style={{color: 'var(--marfil)', fontSize: 18}}>Asociación Los Quilmeros</div>
-                <p>Investigación, historia y patrimonio del partido de Quilmes.</p>
-              </div>
-            </div>
-            <div>
-              <h5>Explorar</h5>
-              <ul>
-                <li><a href="#institucion">Institución</a></li>
-                <li><a href="#publicaciones">Publicaciones</a></li>
-                <li><a href="#efemerides">Efemérides</a></li>
-                <li><a href="#archivo">Archivo El Quilmero</a></li>
-              </ul>
-            </div>
-            <div>
-              <h5>Contacto</h5>
-              <ul>
-                <li>Página de Facebook</li>
-                <li>Correo de la asociación</li>
-                <li>Quilmes, Buenos Aires</li>
-              </ul>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <span>Asociación de Historiadores &quot;Los Quilmeros&quot;</span>
-            <span>Sitio en construcción</span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   )
 }
