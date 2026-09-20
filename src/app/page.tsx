@@ -37,18 +37,21 @@ export default async function Home() {
       <Header />
 
       <section className="hero" id="inicio">
-        <div className="wrap hero-content">
-          <div className="hero-eyebrow">
-            <svg viewBox="0 0 40 12" width="40" height="12"><g fill="none" stroke="#A22929" strokeWidth={2.2}><ellipse cx="6" cy="6" rx="5" ry="4" /><ellipse cx="16" cy="6" rx="5" ry="4" /><ellipse cx="26" cy="6" rx="5" ry="4" /></g></svg>
-            <span className="label">Memoria e identidad local</span>
-            <span className="rule" />
+        <div className="hero-bg" style={{backgroundImage: "url('/hero-quilmes.webp')"}} />
+        <div className="wrap hero-inner">
+          <div className="hero-text">
+            <div className="hero-eyebrow">
+              <svg viewBox="0 0 40 12" width="40" height="12"><g fill="none" stroke="#A22929" strokeWidth={2.2}><ellipse cx="6" cy="6" rx="5" ry="4" /><ellipse cx="16" cy="6" rx="5" ry="4" /><ellipse cx="26" cy="6" rx="5" ry="4" /></g></svg>
+              <span className="label">Memoria e identidad local</span>
+              <span className="rule" />
+            </div>
+            <h1>La historia de Quilmes, viva.</h1>
+            <p className="lead">
+              Somos la Agrupación Los Quilmeros, un grupo de historiadores dedicado a investigar y difundir la
+              historia del partido de Quilmes. Este espacio reúne nuestras publicaciones, un calendario de
+              efemérides locales y el archivo completo de &quot;El Quilmero&quot;.
+            </p>
           </div>
-          <h1>La historia de Quilmes, viva.</h1>
-          <p className="lead">
-            Somos la Agrupación Los Quilmeros, un grupo de historiadores dedicado a investigar y difundir la
-            historia del partido de Quilmes. Este espacio reúne nuestras publicaciones, un calendario de
-            efemérides locales y el archivo completo de &quot;El Quilmero&quot;.
-          </p>
           <div className="hero-actions">
             <a className="hero-cta" href="#footer">Sumate a la asociación →</a>
             <a className="hero-cta-secondary" href="#archivo">Explorar archivo</a>

@@ -10,7 +10,6 @@ export default function Header() {
             alt="Isotipo Asociación Los Quilmeros"
             width={720}
             height={376}
-            style={{height: 44, width: 'auto'}}
             priority
           />
           <div className="brand-text">
