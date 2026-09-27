@@ -126,7 +126,7 @@ export default async function Home() {
         <div className="wrap">
           <div className="section-head">
             <h2>Calendario de efemérides</h2>
-            <a className="ver-todo" href="#">Ver calendario completo</a>
+            <a className="ver-todo" href="/efemerides">Ver calendario completo</a>
           </div>
           <div className="efem-grid">
             <div className="calendario">
@@ -148,12 +148,12 @@ export default async function Home() {
             </div>
             <div className="efem-lista">
               {(efemeridesMes?.length ? efemeridesMes : []).slice(0, 5).map((e: any, i: number) => (
-                <div className="item" key={i}>
+                <a className="item" href={`/efemerides/${e.slug}`} key={i}>
                   <div className="d">{e.dia} {MESES[e.mes - 1].slice(0, 3)}</div>
                   <div>
                     <h4>{e.anioHistorico ? `${e.anioHistorico} — ` : ''}{e.titulo}</h4>
                   </div>
-                </div>
+                </a>
               ))}
               {!efemeridesMes?.length && (
                 <p style={{color: 'rgba(245,241,232,.7)', fontSize: 14}}>

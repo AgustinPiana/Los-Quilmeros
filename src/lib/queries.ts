@@ -43,24 +43,35 @@ export async function getPublicacionPorSlug(slug: string) {
   )
 }
 
-// Trae la/las efemérides de HOY (comparando día y mes, no el año), más las próximas del mes actual.
-export async function getEfemeridesDeHoy(dia: number, mes: number) {
-  return client.fetch(
-    `*[_type == "efemeride" && dia == $dia && mes == $mes]{
-      titulo, texto, anioHistorico, categoria, imagen
-    }`,
-    {dia, mes},
-    SIN_CACHE
-  )
-}
-
 // Todas las efemérides del mes indicado, para pintar el calendario.
 export async function getEfemeridesDelMes(mes: number) {
   return client.fetch(
     `*[_type == "efemeride" && mes == $mes] | order(dia asc){
-      dia, mes, titulo, anioHistorico, categoria
+      dia, mes, titulo, "slug": slug.current, anioHistorico, categoria
     }`,
     {mes},
+    SIN_CACHE
+  )
+}
+
+// Todas las efemérides del año, agrupables por mes, para la página de listado completo.
+export async function getEfemeridesTodas() {
+  return client.fetch(
+    `*[_type == "efemeride"] | order(mes asc, dia asc){
+      dia, mes, titulo, "slug": slug.current, anioHistorico, categoria
+    }`,
+    {},
+    SIN_CACHE
+  )
+}
+
+// Una efeméride puntual, para la página de detalle.
+export async function getEfemeridePorSlug(slug: string) {
+  return client.fetch(
+    `*[_type == "efemeride" && slug.current == $slug][0]{
+      dia, mes, titulo, "slug": slug.current, anioHistorico, categoria, imagen, texto
+    }`,
+    {slug},
     SIN_CACHE
   )
 }

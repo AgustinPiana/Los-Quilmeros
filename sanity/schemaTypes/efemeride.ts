@@ -32,6 +32,13 @@ export default defineType({
       validation: (Rule) => Rule.required().max(90),
     }),
     defineField({
+      name: 'slug',
+      title: 'Slug (URL)',
+      type: 'slug',
+      options: {source: 'titulo', maxLength: 96},
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'texto',
       title: 'Texto completo',
       type: 'text',
