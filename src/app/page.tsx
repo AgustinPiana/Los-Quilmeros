@@ -154,7 +154,7 @@ export default async function Home() {
               </div>
             </div>
             <div className="efem-lista">
-              {(efemeridesMes?.length ? efemeridesMes : []).slice(0, 5).map((e: any, i: number) => (
+              {(efemeridesMes?.length ? efemeridesMes : []).slice(0, 4).map((e: any, i: number) => (
                 <a className="item" href={`/efemerides/${e.slug}`} key={i}>
                   <div className="d">{e.dia} {MESES[e.mes - 1].slice(0, 3)}</div>
                   <div>

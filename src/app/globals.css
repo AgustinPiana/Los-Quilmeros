@@ -111,7 +111,6 @@
 
   /* ---------- institución (página propia) ---------- */
   .institucion-page{background:#fff;}
-  .inst-historia{max-width:74ch;}
   .inst-historia h3{font-size:22px;margin-bottom:16px;}
   .inst-historia p{font-size:15px;color:#3c5165;margin-top:14px;}
   .inst-historia p:first-of-type{margin-top:0;}
