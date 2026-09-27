@@ -30,7 +30,26 @@ export default function Footer() {
           <div>
             <h5>Contacto</h5>
             <ul>
-              <li>Página de Facebook</li>
+              <li>
+                <a href="https://www.facebook.com/groups/589317591242180/" target="_blank" rel="noopener">
+                  Página de Facebook
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/ah_losquilmeros/" target="_blank" rel="noopener">
+                  Instagram
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.facebook.com/groups/589317591242180/"
+                  target="_blank"
+                  rel="noopener"
+                  title="Todavía no tenemos WhatsApp — por ahora te lleva al grupo de Facebook"
+                >
+                  WhatsApp
+                </a>
+              </li>
               <li>Correo de la asociación</li>
               <li>Quilmes, Buenos Aires</li>
             </ul>
@@ -38,7 +57,12 @@ export default function Footer() {
         </div>
         <div className="footer-bottom">
           <span>Asociación de Historiadores &quot;Los Quilmeros&quot;</span>
-          <span>Sitio en construcción</span>
+          <span>
+            Powered by{' '}
+            <a href="https://keep-ds.com/" target="_blank" rel="noopener">
+              Keep DS
+            </a>
+          </span>
         </div>
       </div>
     </footer>
