@@ -15,8 +15,22 @@ const montserrat = Montserrat({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://losquilmeros.com.ar'),
   title: 'Asociación Los Quilmeros',
   description: 'Investigación, historia y patrimonio del partido de Quilmes.',
+  openGraph: {
+    title: 'Asociación Los Quilmeros',
+    description: 'Investigación, historia y patrimonio del partido de Quilmes.',
+    url: '/',
+    siteName: 'Asociación Los Quilmeros',
+    locale: 'es_AR',
+    type: 'website',
+    images: ['/isotipo.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function RootLayout({children}: {children: React.ReactNode}) {

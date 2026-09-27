@@ -23,7 +23,6 @@ export default function Header() {
           <a href="/#efemerides">Efemérides</a>
           <a href="/#redes">Redes</a>
           <a href="/#archivo">Archivo El Quilmero</a>
-          <a href="/#footer">Contacto</a>
         </nav>
         <div className="header-actions">
           <a className="login-btn" href="/studio">Iniciar sesión</a>
