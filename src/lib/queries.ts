@@ -12,7 +12,7 @@ export async function getPublicaciones() {
     "destacada": *[_type == "publicacion" && destacada == true] | order(fecha desc)[0]{
       titulo, "slug": slug.current, resumen, fecha, categoria, imagen
     },
-    "recientes": *[_type == "publicacion" && destacada != true] | order(fecha desc)[0...5]{
+    "recientes": *[_type == "publicacion" && destacada != true] | order(fecha desc)[0...3]{
       titulo, "slug": slug.current, resumen, fecha, categoria
     }
   }`,
