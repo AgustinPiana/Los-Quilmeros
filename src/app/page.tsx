@@ -55,8 +55,15 @@ export default async function Home() {
             </p>
           </div>
           <div className="hero-actions">
-            <a className="hero-cta" href="#footer">Sumate a la asociación →</a>
-            <a className="hero-cta-secondary" href="#archivo">Explorar archivo</a>
+            <a
+              className="hero-cta"
+              href="https://www.facebook.com/groups/589317591242180/"
+              target="_blank"
+              rel="noopener"
+            >
+              Sumate a la asociación →
+            </a>
+            <a className="hero-cta-secondary" href="/publicaciones">Ver nuestras publicaciones</a>
           </div>
         </div>
       </section>
@@ -194,6 +201,36 @@ export default async function Home() {
                 Unirme al grupo
               </a>
             </div>
+
+            <div className="redes-iconos" style={{gridColumn: '1 / -1'}}>
+              <a
+                className="red-icono"
+                href="https://www.instagram.com/ah_losquilmeros/"
+                target="_blank"
+                rel="noopener"
+              >
+                <span className="red-icono-mark ig">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="#fff" aria-hidden="true">
+                    <path d="M12 2c-2.72 0-3.06.01-4.12.06-1.06.05-1.79.22-2.43.47-.66.26-1.22.6-1.77 1.16-.56.55-.9 1.11-1.16 1.77-.25.64-.42 1.37-.47 2.43C2.01 8.94 2 9.28 2 12s.01 3.06.06 4.12c.05 1.06.22 1.79.47 2.43.26.66.6 1.22 1.16 1.77.55.56 1.11.9 1.77 1.16.64.25 1.37.42 2.43.47C8.94 21.99 9.28 22 12 22s3.06-.01 4.12-.06c1.06-.05 1.79-.22 2.43-.47.66-.26 1.22-.6 1.77-1.16.56-.55.9-1.11 1.16-1.77.25-.64.42-1.37.47-2.43.05-1.06.06-1.4.06-4.12s-.01-3.06-.06-4.12c-.05-1.06-.22-1.79-.47-2.43a4.9 4.9 0 0 0-1.16-1.77 4.9 4.9 0 0 0-1.77-1.16c-.64-.25-1.37-.42-2.43-.47C15.06 2.01 14.72 2 12 2Zm0 1.8c2.67 0 2.99.01 4.04.06.98.04 1.5.21 1.85.34.47.18.8.4 1.15.75.35.35.57.68.75 1.15.13.36.29.88.34 1.85.05 1.05.06 1.37.06 4.04s-.01 2.99-.06 4.04c-.04.98-.21 1.5-.34 1.85-.18.47-.4.8-.75 1.15-.35.35-.68.57-1.15.75-.36.13-.88.29-1.85.34-1.05.05-1.37.06-4.04.06s-2.99-.01-4.04-.06c-.98-.04-1.5-.21-1.85-.34a3.1 3.1 0 0 1-1.15-.75 3.1 3.1 0 0 1-.75-1.15c-.13-.36-.29-.88-.34-1.85-.05-1.05-.06-1.37-.06-4.04s.01-2.99.06-4.04c.04-.98.21-1.5.34-1.85.18-.47.4-.8.75-1.15.35-.35.68-.57 1.15-.75.36-.13.88-.29 1.85-.34C9.01 3.81 9.33 3.8 12 3.8Zm0 3.06a5.14 5.14 0 1 0 0 10.28 5.14 5.14 0 0 0 0-10.28Zm0 8.48a3.34 3.34 0 1 1 0-6.68 3.34 3.34 0 0 1 0 6.68Zm5.34-8.68a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0Z" />
+                  </svg>
+                </span>
+                <span>Instagram</span>
+              </a>
+              <a
+                className="red-icono"
+                href="https://www.facebook.com/groups/589317591242180/"
+                target="_blank"
+                rel="noopener"
+                title="Todavía no tenemos WhatsApp — por ahora te lleva al grupo de Facebook"
+              >
+                <span className="red-icono-mark wa">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="#fff" aria-hidden="true">
+                    <path d="M17.47 14.38c-.29-.15-1.7-.84-1.97-.93-.26-.1-.46-.15-.65.15-.2.29-.75.93-.92 1.13-.17.19-.34.22-.63.07-.29-.15-1.22-.45-2.32-1.43-.86-.76-1.44-1.71-1.6-2-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.5.15-.17.19-.29.29-.48.1-.2.05-.37-.02-.51-.07-.15-.65-1.56-.89-2.14-.24-.57-.47-.49-.65-.5h-.55c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.4 0 1.4 1.02 2.76 1.17 2.95.15.19 2.01 3.07 4.88 4.31.68.29 1.21.47 1.63.6.68.22 1.31.19 1.8.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34ZM12.02 21.8h-.01a9.8 9.8 0 0 1-5-1.36l-.36-.21-3.71.97.99-3.62-.24-.37a9.75 9.75 0 0 1-1.5-5.21C2.2 6.6 6.6 2.2 12.02 2.2c2.61 0 5.06 1.02 6.9 2.86a9.7 9.7 0 0 1 2.86 6.9c0 5.42-4.4 9.84-9.76 9.84Zm8.32-18.16A11.6 11.6 0 0 0 12.02 0C5.4 0 .04 5.36.04 11.97c0 2.1.55 4.16 1.6 5.98L0 24l6.2-1.62a11.95 11.95 0 0 0 5.82 1.48h.01c6.62 0 12-5.36 12-11.97a11.9 11.9 0 0 0-3.5-8.24Z" />
+                  </svg>
+                </span>
+                <span>WhatsApp</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -202,7 +239,7 @@ export default async function Home() {
         <div className="wrap">
           <div className="section-head">
             <h2>Archivo &quot;El Quilmero&quot;</h2>
-            <a className="ver-todo" href="https://elquilmero.blogspot.com/" target="_blank" rel="noopener">Ir al blog original</a>
+            <a className="ver-todo" href="/archivo">Ver todas las publicaciones del archivo</a>
           </div>
           <div className="archivo-grid">
             {(archivo?.length ? archivo : []).map((a: any, i: number) => (

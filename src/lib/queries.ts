@@ -76,13 +76,24 @@ export async function getEfemeridePorSlug(slug: string) {
   )
 }
 
-// Últimas entradas importadas del blogspot, para la sección Archivo.
+// Últimas entradas importadas del blogspot, para la sección Archivo de la home.
 export async function getArchivoEntries(cantidad = 6) {
   return client.fetch(
     `*[_type == "archivoEntry"] | order(fecha desc)[0...$cantidad]{
       titulo, resumen, fecha, etiquetas, urlOriginal, imagen
     }`,
     {cantidad},
+    SIN_CACHE
+  )
+}
+
+// Todas las entradas importadas, para la página de listado + buscador del Archivo.
+export async function getArchivoEntriesTodas() {
+  return client.fetch(
+    `*[_type == "archivoEntry"] | order(fecha desc){
+      titulo, resumen, fecha, etiquetas, urlOriginal
+    }`,
+    {},
     SIN_CACHE
   )
 }

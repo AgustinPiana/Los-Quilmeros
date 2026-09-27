@@ -302,6 +302,17 @@
     padding:12px 24px;white-space:nowrap;
   }
   .fb-cta-btn:hover{background:var(--azul-profundo);}
+  .redes-iconos{display:flex;gap:16px;margin-top:20px;flex-wrap:wrap;}
+  .red-icono{
+    display:inline-flex;align-items:center;gap:10px;background:#fff;color:var(--azul-profundo);
+    padding:12px 20px;font-weight:600;font-size:14px;
+  }
+  .red-icono:hover{background:var(--marfil);}
+  .red-icono-mark{
+    width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .red-icono-mark.ig{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);}
+  .red-icono-mark.wa{background:#25D366;}
 
   /* ---------- archivo (blogspot) ---------- */
   .archivo-wrap{background:var(--marfil-sombra);}
@@ -332,6 +343,16 @@
     background:transparent;border:1px solid var(--azul-profundo);color:var(--azul-profundo);
     font-family: var(--font-sans), sans-serif;font-weight:600;font-size:13.5px;padding:12px 26px;cursor:pointer;
   }
+
+  /* ---------- página del archivo (buscador) ---------- */
+  .archivo-page{background:var(--marfil-sombra);}
+  .archivo-page-intro{max-width:64ch;font-size:14.5px;color:#5a5142;margin-top:-12px;margin-bottom:32px;}
+  .archivo-buscador input{
+    width:100%;max-width:420px;display:block;border:1px solid var(--linea);background:#fff;
+    padding:13px 18px;font-size:14.5px;font-family: var(--font-sans), sans-serif;color:var(--azul-profundo);
+  }
+  .archivo-buscador input:focus{outline:2px solid var(--azul-quilmes);outline-offset:1px;}
+  .archivo-buscador-resultado{margin:14px 0 24px;font-size:13px;color:#8a7c5c;}
 
   /* ---------- footer ---------- */
   footer{background:var(--azul-profundo);color:var(--marfil);padding:56px 0 28px;}
