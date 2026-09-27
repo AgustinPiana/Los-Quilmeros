@@ -156,26 +156,69 @@
   .pub-grid{
     display:grid;grid-template-columns:1.4fr 1fr;gap:32px;
   }
-  .pub-principal{border:1px solid var(--linea);background:#fff;}
+  .pub-principal{display:block;border:1px solid var(--linea);background:#fff;transition:box-shadow .15s,border-color .15s;}
+  .pub-principal:hover{border-color:var(--azul-quilmes);box-shadow:0 6px 20px rgba(18,52,74,.08);}
   .pub-principal .img{
     aspect-ratio:16/9;background:linear-gradient(135deg,var(--azul-quilmes),var(--azul-profundo));
     display:flex;align-items:center;justify-content:center;color:#fff;font-family: var(--font-serif), serif;
-    font-size:14px;letter-spacing:.03em;
+    font-size:14px;letter-spacing:.03em;overflow:hidden;
   }
+  .pub-principal .img img{width:100%;height:100%;object-fit:cover;}
   .pub-principal .body{padding:26px 28px 30px;}
   .pub-principal .cat{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dorado-sol);font-weight:700;}
   .pub-principal h3{font-size:24px;margin-top:10px;line-height:1.3;}
   .pub-principal p{margin-top:10px;font-size:14.5px;color:#425567;}
   .pub-lista{display:flex;flex-direction:column;gap:0;}
   .pub-item{
-    display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--linea);
+    display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--linea);transition:background .15s;
   }
+  .pub-item:hover{background:#fafafa;}
   .pub-item:first-child{padding-top:0;}
   .pub-item .fecha{
     font-family: var(--font-serif), serif;font-size:13px;color:var(--rojo-cadena);white-space:nowrap;min-width:64px;
   }
   .pub-item h4{font-family: var(--font-serif), serif;font-weight:700;font-size:16.5px;line-height:1.35;}
   .pub-item p{margin-top:6px;font-size:13.5px;color:#4b5f70;}
+
+  /* ---------- listado de publicaciones ---------- */
+  .publicaciones-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .publicacion-card{
+    display:block;border:1px solid var(--linea);background:#fff;
+    transition:box-shadow .15s,border-color .15s;
+  }
+  .publicacion-card:hover{border-color:var(--azul-quilmes);box-shadow:0 6px 20px rgba(18,52,74,.08);}
+  .publicacion-card .img{
+    aspect-ratio:16/10;background:linear-gradient(135deg,var(--azul-quilmes),var(--azul-profundo));
+    display:flex;align-items:center;justify-content:center;color:#fff;font-family: var(--font-serif), serif;
+    font-size:13px;letter-spacing:.03em;text-align:center;padding:16px;overflow:hidden;
+  }
+  .publicacion-card .img img{width:100%;height:100%;object-fit:cover;}
+  .publicacion-card .body{padding:20px 22px 24px;}
+  .publicacion-card .cat{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dorado-sol);font-weight:700;}
+  .publicacion-card h3{font-size:18px;margin-top:8px;line-height:1.3;}
+  .publicacion-card p{margin-top:8px;font-size:13.5px;color:#425567;}
+  .publicacion-card .fecha{margin-top:14px;font-size:12px;color:#8a97a3;}
+
+  /* ---------- detalle de publicación ---------- */
+  .wrap-angosto{max-width:760px;}
+  .volver{display:inline-block;font-size:13px;font-weight:600;color:var(--azul-quilmes);margin-bottom:24px;}
+  .publicacion-detalle .cat{
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dorado-sol);font-weight:700;
+  }
+  .publicacion-detalle h1{font-size:34px;line-height:1.25;margin-top:10px;}
+  .publicacion-detalle .fecha{margin-top:10px;font-size:13.5px;color:#5a7186;}
+  .imagen-principal{margin-top:28px;border:1px solid var(--linea);}
+  .imagen-principal img{width:100%;height:auto;display:block;}
+  .cuerpo, .resumen-solo{margin-top:28px;font-size:16px;line-height:1.7;color:#31445a;}
+  .cuerpo p{margin:0 0 18px;}
+  .cuerpo h2{font-size:24px;margin:32px 0 14px;}
+  .cuerpo h3{font-size:20px;margin:28px 0 12px;}
+  .cuerpo ul, .cuerpo ol{margin:0 0 18px;padding-left:22px;}
+  .cuerpo li{margin-bottom:8px;}
+  .cuerpo a{color:var(--azul-quilmes);text-decoration:underline;}
+  .cuerpo blockquote{
+    margin:24px 0;padding-left:18px;border-left:3px solid var(--rojo-cadena);color:#4b5f70;font-style:italic;
+  }
 
   /* ---------- efemerides calendario ---------- */
   .efem-wrap{
@@ -300,6 +343,8 @@
     .pub-grid,.efem-grid,.redes-body{grid-template-columns:1fr;}
     .hero-eyebrow .rule{display:none;}
     .archivo-grid{grid-template-columns:1fr;}
+    .publicaciones-grid{grid-template-columns:1fr;}
+    .publicacion-detalle h1{font-size:26px;}
     .inst-bandera{grid-template-columns:1fr;}
     .autoridades-grid{grid-template-columns:1fr 1fr;}
     .footer-grid{grid-template-columns:1fr;gap:28px;}

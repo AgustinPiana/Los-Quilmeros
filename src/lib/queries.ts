@@ -10,13 +10,35 @@ export async function getPublicaciones() {
   return client.fetch(
     `{
     "destacada": *[_type == "publicacion" && destacada == true] | order(fecha desc)[0]{
-      titulo, resumen, fecha, categoria, imagen
+      titulo, "slug": slug.current, resumen, fecha, categoria, imagen
     },
     "recientes": *[_type == "publicacion" && destacada != true] | order(fecha desc)[0...5]{
-      titulo, resumen, fecha, categoria
+      titulo, "slug": slug.current, resumen, fecha, categoria
     }
   }`,
     {},
+    SIN_CACHE
+  )
+}
+
+// Todas las publicaciones, para la página de listado completo.
+export async function getPublicacionesTodas() {
+  return client.fetch(
+    `*[_type == "publicacion"] | order(fecha desc){
+      titulo, "slug": slug.current, resumen, fecha, categoria, imagen
+    }`,
+    {},
+    SIN_CACHE
+  )
+}
+
+// Una publicación puntual, para la página de detalle.
+export async function getPublicacionPorSlug(slug: string) {
+  return client.fetch(
+    `*[_type == "publicacion" && slug.current == $slug][0]{
+      titulo, "slug": slug.current, resumen, fecha, categoria, imagen, cuerpo
+    }`,
+    {slug},
     SIN_CACHE
   )
 }

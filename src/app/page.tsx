@@ -1,4 +1,6 @@
+import Image from 'next/image'
 import {getPublicaciones, getEfemeridesDelMes, getArchivoEntries} from '@/lib/queries'
+import {urlFor} from '@/lib/sanity'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -69,26 +71,48 @@ export default async function Home() {
         <div className="wrap">
           <div className="section-head">
             <h2>Publicaciones</h2>
-            <a className="ver-todo" href="#">Ver todas las publicaciones</a>
+            <a className="ver-todo" href="/publicaciones">Ver todas las publicaciones</a>
           </div>
           <div className="pub-grid">
-            <article className="pub-principal">
-              <div className="img">{publicaciones?.destacada ? publicaciones.destacada.titulo : 'Cargá una publicación destacada desde /studio'}</div>
-              <div className="body">
-                <div className="cat">{publicaciones?.destacada?.categoria || 'Sin categoría'}</div>
-                <h3>{publicaciones?.destacada?.titulo || 'Todavía no hay una publicación destacada'}</h3>
-                <p>{publicaciones?.destacada?.resumen || 'Marcá una publicación como destacada en el panel para que aparezca acá.'}</p>
-              </div>
-            </article>
+            {publicaciones?.destacada ? (
+              <a className="pub-principal" href={`/publicaciones/${publicaciones.destacada.slug}`}>
+                <div className="img">
+                  {publicaciones.destacada.imagen ? (
+                    <Image
+                      src={urlFor(publicaciones.destacada.imagen).width(760).height(428).url()}
+                      alt={publicaciones.destacada.titulo}
+                      width={760}
+                      height={428}
+                    />
+                  ) : (
+                    publicaciones.destacada.titulo
+                  )}
+                </div>
+                <div className="body">
+                  <div className="cat">{publicaciones.destacada.categoria || 'Sin categoría'}</div>
+                  <h3>{publicaciones.destacada.titulo}</h3>
+                  <p>{publicaciones.destacada.resumen}</p>
+                </div>
+              </a>
+            ) : (
+              <article className="pub-principal">
+                <div className="img">Cargá una publicación destacada desde /studio</div>
+                <div className="body">
+                  <div className="cat">Sin categoría</div>
+                  <h3>Todavía no hay una publicación destacada</h3>
+                  <p>Marcá una publicación como destacada en el panel para que aparezca acá.</p>
+                </div>
+              </article>
+            )}
             <div className="pub-lista">
               {(publicaciones?.recientes?.length ? publicaciones.recientes : []).map((p: any, i: number) => (
-                <div className="pub-item" key={i}>
+                <a className="pub-item" href={`/publicaciones/${p.slug}`} key={i}>
                   <div className="fecha">{new Date(p.fecha).toLocaleDateString('es-AR', {day: '2-digit', month: 'short'})}</div>
                   <div>
                     <h4>{p.titulo}</h4>
                     <p>{p.resumen}</p>
                   </div>
-                </div>
+                </a>
               ))}
               {!publicaciones?.recientes?.length && (
                 <p style={{color: '#5a7186', fontSize: 14}}>Las próximas publicaciones que cargues van a aparecer acá.</p>
