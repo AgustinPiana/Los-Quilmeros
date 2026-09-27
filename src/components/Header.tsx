@@ -18,10 +18,10 @@ export default function Header() {
           </div>
         </a>
         <nav>
-          <a href="/institucion">Institución</a>
           <a href="/#publicaciones">Publicaciones</a>
           <a href="/#efemerides">Efemérides</a>
           <a href="/#redes">Redes</a>
+          <a href="/institucion">Institución</a>
           <a href="/#archivo">Archivo El Quilmero</a>
         </nav>
         <div className="header-actions">
