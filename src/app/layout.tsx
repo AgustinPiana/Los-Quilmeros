@@ -33,9 +33,29 @@ export const metadata: Metadata = {
   },
 }
 
+const datosEstructurados = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Asociación Los Quilmeros',
+  alternateName: 'Agrupación Los Quilmeros',
+  url: 'https://losquilmeros.com.ar',
+  logo: 'https://losquilmeros.com.ar/isotipo.png',
+  description: 'Investigación, historia y patrimonio del partido de Quilmes.',
+  sameAs: [
+    'https://www.facebook.com/groups/589317591242180/',
+    'https://www.instagram.com/ah_losquilmeros/',
+  ],
+}
+
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="es">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: JSON.stringify(datosEstructurados)}}
+        />
+      </head>
       <body className={`${baskerville.variable} ${montserrat.variable}`}>{children}</body>
     </html>
   )

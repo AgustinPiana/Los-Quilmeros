@@ -9,6 +9,7 @@
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
+  html, body{overflow-x:hidden;max-width:100%;}
   #inicio, #publicaciones, #efemerides, #redes, #archivo, #footer{scroll-margin-top:90px;}
   body{
     margin:0;
@@ -381,9 +382,20 @@
   @media (max-width:860px){
     nav{display:none;}
     .menu-btn{display:block;}
+    header{position:sticky;}
+    nav.nav-abierto{
+      display:flex;flex-direction:column;gap:0;
+      position:absolute;top:100%;left:0;right:0;
+      background:var(--marfil);border-bottom:1px solid var(--linea);
+      padding:6px 20px 16px;box-shadow:0 10px 20px rgba(18,52,74,.1);
+    }
+    nav.nav-abierto a{padding:13px 0;border-bottom:1px solid var(--linea);font-size:15px;}
+    nav.nav-abierto a:last-child{border-bottom:none;}
     .login-btn{padding:8px 14px;font-size:12.5px;}
     .pub-grid,.efem-grid,.redes-body{grid-template-columns:1fr;}
     .hero-eyebrow .rule{display:none;}
+    .hero-eyebrow .label{white-space:normal;}
+    .fb-cta-texto{min-width:0;}
     .archivo-grid{grid-template-columns:1fr;}
     .publicaciones-grid{grid-template-columns:1fr;}
     .publicacion-detalle h1{font-size:26px;}
@@ -393,6 +405,11 @@
     .footer-grid{grid-template-columns:1fr;gap:28px;}
     .hero h1{font-size:30px;}
     .redes-grid{gap:24px;}
+    .section-head{flex-wrap:wrap;row-gap:8px;}
+    .section-head h2{font-size:22px;}
+    .section-head .ver-todo{white-space:normal;}
+    .redes-head h2{font-size:22px;}
+    .footer-bottom{flex-direction:column;align-items:flex-start;gap:8px;}
   }
 
   @media (max-width:480px){
